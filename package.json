@@ -1,0 +1,26 @@
+{
+  "name": "heartmusic",
+  "version": "1.0.0",
+  "description": "a personalised music listening application.",
+  "main": "main.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "heartmusic"
+  },
+  "keywords": [
+    "heartmusic",
+    "music",
+    "music",
+    "for",
+    "heart"
+  ],
+  "author": "Bruce SHIMWA",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^26.1.0"
+  }
+}

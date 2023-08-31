@@ -1,0 +1,91 @@
+.local-btn-1 {
+    padding: 0.4rem 1.3rem;
+    border: 1px solid;
+    border-radius: 0.3rem;
+}
+
+.local-btn-2 {
+    border: 1px solid;
+    border-radius: 2rem;
+    width: 3rem;
+    height: 3rem;
+}
+
+.local-btn-3 {
+    padding: 0 1.3rem;
+    border: 1px solid;
+    border-radius: 0.3rem;
+}
+
+.local-btn-4 {
+    border: 1px solid;
+    border-radius: 2rem;
+    width: 4rem;
+    height: 4rem;
+}
+
+.local-btn-5 {
+    border: 1px solid;
+    border-radius: 2rem;
+    width: 2rem;
+    height: 2rem;
+}
+
+.local-btn-6 {
+    padding: .1rem;
+    border: 1px solid;
+    border-radius: 0.3rem;
+}
+
+.local-menu-1 {
+    margin-bottom: .5rem;
+}
+
+.local-menu-2 {
+    margin-top: 0.5rem;
+}
+
+.local-menu-2>div:first-child {
+    padding: 0 0.4rem;
+}
+
+.local-menu-2>div:last-child {
+    padding: 0 1.3rem;
+}
+
+.local-track-list {
+    padding: 0.4rem;
+    border: 1px solid;
+    border-radius: 0.3rem;
+}
+
+.local-track {
+    padding: 0.4rem 1.3rem;
+    border: 1px solid;
+    border-radius: 0.3rem;
+}
+
+.local-track-player {
+    padding: 0.4rem 1.3rem;
+    border: 1px solid;
+    border-radius: 0.3rem;
+}
+
+.local-search-box {
+    padding-right: 2rem;
+}
+
+.local-search-box>input {
+    padding: 0.25rem 1.3rem;
+    border: 1px solid;
+    border-radius: 0.3rem;
+    font-size: 1.1rem;
+}
+
+.local-vote-control {
+
+}
+
+.local-media-control {
+    margin-bottom: 1rem;
+}
