@@ -6,9 +6,9 @@ export default function Track() {
           <div className="flex items-center flex-[3] h-full">track name</div>
           <div className="flex items-center flex-[1] h-full">--:--</div>
           <div className="flex items-center flex-[4] h-full">artist</div>
-          <span className="flex items-center h-full">
+          <button className="flex items-center h-full">
             <PlayArrowRoundedIcon/>
-          </span>
+          </button>
         </div>
     )
   }
