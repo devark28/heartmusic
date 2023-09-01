@@ -115,11 +115,11 @@ export default function Home() {
             <div className="flex items-center justify-between">
               <button className="local-btn-6 local-volume-control">
                 <VolumeMuteRoundedIcon/>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+                <span className="h-4"></span>
+                <span className="h-4"></span>
+                <span className="h-4"></span>
+                <span className="h-[.65rem]"></span>
+                <span className="h-[.3rem]"></span>
               </button>
               <div className="flex gap-2 items-center justify-center">
                 <button className="local-btn-6">
