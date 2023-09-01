@@ -1,27 +1,48 @@
 .local-btn-1 {
-    padding: 0.4rem 1.3rem;
+    display: flex;
+    gap: 0.5rem;
+    font-weight: bold;
+    padding: 0.4rem .7rem;
     border: 1px solid;
     border-radius: 0.3rem;
 }
 
 .local-btn-2 {
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 2rem;
     width: 3rem;
     height: 3rem;
+    font-size: 1.7rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.local-btn-2>svg {
+    font-size: inherit;
 }
 
 .local-btn-3 {
-    padding: 0 1.3rem;
+    display: flex;
+    padding: 0 0.5rem;
     border: 1px solid;
     border-radius: 0.3rem;
 }
 
 .local-btn-4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 1px solid;
     border-radius: 2rem;
     width: 4rem;
     height: 4rem;
+    font-size: 3rem;
+}
+
+.local-btn-4>svg {
+    font-size: inherit;
 }
 
 .local-btn-5 {
@@ -35,6 +56,7 @@
     padding: .1rem;
     border: 1px solid;
     border-radius: 0.3rem;
+    padding: 0.1rem 0.2rem
 }
 
 .local-menu-1 {
@@ -75,8 +97,8 @@
     padding-right: 2rem;
 }
 
-.local-search-box>input {
-    padding: 0.25rem 1.3rem;
+.local-search-box>label {
+    padding: 0.25rem .5rem 0.25rem 1.3rem;
     border: 1px solid;
     border-radius: 0.3rem;
     font-size: 1.1rem;
@@ -88,4 +110,28 @@
 
 .local-media-control {
     margin-bottom: 1rem;
+}
+
+.local-volume-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .2rem;
+    padding: 0.2rem 0.5rem 0.2rem 0.1rem
+}
+
+.local-volume-control>span {
+    height: 1rem;
+    width: .3rem;
+    border-radius: 1rem;
+    display: flex;
+    background: black;
+}
+
+.local-menu-control {
+    font-size: 1.7rem;
+}
+
+.local-menu-control>svg {
+    font-size: inherit;
 }
