@@ -113,11 +113,11 @@
 }
 
 .local-volume-control {
-    /* display: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     gap: .2rem;
-    padding: 0.2rem 0.5rem 0.2rem 0.1rem */
+    padding: 0.2rem 0.5rem 0.2rem 0.1rem
 }
 
 .local-volume-control>span {
