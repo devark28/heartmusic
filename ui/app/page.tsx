@@ -68,11 +68,7 @@ export default function Home() {
       </div>
       <div className="flex flex-1 w-full gap-2">
         <div className="flex flex-[.7] flex-col gap-2 local-track-list">
-          <Track/>
-          <Track/>
-          <Track/>
-          <Track/>
-          <Track/>
+          {renderTracks()}
         </div>
         <div className="flex flex-[.3] flex-col local-track-player">
           <div className="flex items-center justify-between">
@@ -129,4 +125,13 @@ export default function Home() {
       </div>
     </main>
   )
+}
+
+function renderTracks(data = Array(6)){
+  let results = []
+  for (let i = 0; i < data.length; i++) {
+    // const element = data[i];
+    results.push(<Track/>)
+  }
+  return results
 }
