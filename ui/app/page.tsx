@@ -92,7 +92,9 @@ export default function Home() {
               <MenuRoundedIcon/>
             </button>
           </div>
-          <div className="flex flex-1 w-full p-4"></div>
+          <div className="flex flex-1 w-full p-4">
+            <audio hidden></audio>
+          </div>
           <div className="flex flex-col w-full">
             <div>
               <Slider size="medium"/>
