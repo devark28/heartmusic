@@ -34,7 +34,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 2rem;
     width: 4rem;
     height: 4rem;
@@ -54,7 +54,7 @@
 
 .local-btn-6 {
     padding: .1rem;
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 0.3rem;
     padding: 0.1rem 0.2rem
 }
