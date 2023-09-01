@@ -1,3 +1,5 @@
+'use client'
+
 /*********
  * ICONS *
  *********/
@@ -8,24 +10,26 @@ import VolumeMuteRoundedIcon from '@mui/icons-material/VolumeMuteRounded';
 import CloseFullscreenRoundedIcon from '@mui/icons-material/CloseFullscreenRounded';
 import KeyboardDoubleArrowUpRoundedIcon from '@mui/icons-material/KeyboardDoubleArrowUpRounded';
 import KeyboardDoubleArrowDownRoundedIcon from '@mui/icons-material/KeyboardDoubleArrowDownRounded';
-// shuffle icon
+import ShuffleIcon from "../components/ShuffleIcon"
 import QueueMusicRoundedIcon from '@mui/icons-material/QueueMusicRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import ShareRoundedIcon from '@mui/icons-material/ShareRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-// link icon
-// local icon
+import LinkIcon from "../components/LinkIcon"
+import DesktopWindowsRoundedIcon from '@mui/icons-material/DesktopWindowsRounded';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 /**************
  * Components *
  **************/
 import Slider from "@mui/material/Slider";
 import Track from "../components/Track";
+import { useState } from 'react';
 
 export default function Home() {
+  const [is_current_track_local, setIs_current_track_local] = useState(true)
   return (
-    <main className="flex min-h-screen flex-col items-center justify-around p-6">
+    <main className="flex min-h-screen max-h-screen flex-col items-center justify-around p-6">
       <div className="flex w-full h-8 items-center local-menu-1">
         <div className="flex flex-1 items-center gap-8">
           <button className="local-btn-1">
@@ -55,13 +59,15 @@ export default function Home() {
           </button>
         </span>
       </div>
-      
-      <div className="flex w-full h-8 items-center local-menu-2">
+      <div className="flex w-full h-8 items-end local-menu-2">
         <div className="flex flex-[.7]">
           <div className="flex flex-1 items-center">all Music</div>
           <span className="flex gap-2">
-            <button className="local-btn-3">shuffle</button>
-            <button className="local-btn-3">
+            <button className="gap-[.3rem] pr-[.5rem] pl-[.5rem] local-btn-3">
+              shuffle
+              <ShuffleIcon/>
+            </button>
+            <button className="pr-[.3rem] pl-[.5rem] local-btn-3">
               play
               <PlayArrowRoundedIcon/>
             </button>
@@ -75,7 +81,13 @@ export default function Home() {
         </div>
         <div className="flex flex-[.3] flex-col local-track-player">
           <div className="flex items-center justify-between">
-            <span>source:link/local</span>
+            <span>
+              {
+                is_current_track_local
+                ? (<DesktopWindowsRoundedIcon/>)
+                : (<LinkIcon/>)
+              }
+            </span>
             <button className="local-menu-control">
               <MenuRoundedIcon/>
             </button>
