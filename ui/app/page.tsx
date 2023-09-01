@@ -1,5 +1,3 @@
-import Track from "../components/Track";
-
 /*********
  * ICONS *
  *********/
@@ -17,8 +15,13 @@ import ShareRoundedIcon from '@mui/icons-material/ShareRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 // link icon
+// local icon
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-
+/**************
+ * Components *
+ **************/
+import Slider from "@mui/material/Slider";
+import Track from "../components/Track";
 
 export default function Home() {
   return (
@@ -80,7 +83,7 @@ export default function Home() {
           <div className="flex flex-1 w-full p-4"></div>
           <div className="flex flex-col w-full">
             <div>
-              <input type="range" className="w-full"/>
+              <Slider size="medium"/>
             </div>
             <div className="flex items-center justify-between">
               <span>--:--</span>
