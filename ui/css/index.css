@@ -3,7 +3,7 @@
     gap: 0.5rem;
     font-weight: bold;
     padding: 0.4rem .7rem;
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 0.3rem;
 }
 
@@ -26,7 +26,7 @@
 .local-btn-3 {
     display: flex;
     /* padding: 0 0.5rem; */
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 0.3rem;
 }
 
@@ -34,7 +34,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 2rem;
     width: 4rem;
     height: 4rem;
@@ -46,7 +46,7 @@
 }
 
 .local-btn-5 {
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 2rem;
     width: 2rem;
     height: 2rem;
@@ -54,7 +54,7 @@
 
 .local-btn-6 {
     padding: .1rem;
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 0.3rem;
     padding: 0.1rem 0.2rem
 }
@@ -78,20 +78,20 @@
 
 .local-track-list {
     padding: 0.4rem;
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 0.3rem;
     overflow-y: auto;
 }
 
 .local-track {
     padding: 0.4rem 1.3rem;
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 0.3rem;
 }
 
 .local-track-player {
     padding: 0.4rem 1.3rem;
-    border: 1px solid;
+    /* border: 1px solid; */
     border-radius: 0.3rem;
 }
 
@@ -104,11 +104,12 @@
     border: 1px solid;
     border-radius: 0.3rem;
     font-size: 1.1rem;
+    border-color: rgb(82 82 82 / 1);
 }
 
-.local-vote-control {
+/* .local-vote-control {
 
-}
+} */
 
 .local-media-control {
     margin-bottom: 1rem;
@@ -127,7 +128,7 @@
     width: .3rem;
     border-radius: 1rem;
     display: flex;
-    background: black;
+    /* background: black; */
 }
 
 .local-menu-control {

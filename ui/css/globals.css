@@ -33,3 +33,7 @@ body {
     )
     rgb(var(--background-start-rgb)); */
 }
+
+svg * {
+  color: inherit;
+}

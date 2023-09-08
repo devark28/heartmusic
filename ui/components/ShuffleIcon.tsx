@@ -2,14 +2,13 @@ import SvgIcon from "@mui/material/SvgIcon";
 
 import React from 'react'
 
-export default function ShuffleIcon() {
+export default function ShuffleIcon({className=""}:{className?:string}) {
   return (
-    <SvgIcon>
+    <SvgIcon className={className}>
     {/* credit: plus icon from https://heroicons.com/ */}
     <svg
         baseProfile="tiny"
         height="24px"
-        id="Layer_1"
         version="1.2"
         viewBox="0 0 24 24"
         width="24px"
