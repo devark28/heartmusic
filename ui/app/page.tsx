@@ -178,84 +178,84 @@ export default function Home() {
             </button>
           </div>
           <div className="flex flex-1 w-full p-4">
-          {/*  w-[auto!important] */}
           <ReactPlayer
-          className="flex relative w-[30rem!important] h-[auto!important]"
-          ref={video_player_ref}
-          onReady={() => {
-            // setPreview(true)
-            console.log("ready");
-          }}
-          pip={false}
-          onDuration={(dur)=>{
-            console.log("Buffer end -- " + dur);
-            setDuration(dur)
-          }}
-          config={{
-            file: {
-              attributes: {
-                controlsList: 'nodownload',
-                disablePictureInPicture: true,
-                preload: "none",
+            className="relative hidden w-[auto!important] h-[auto!important]"
+            ref={video_player_ref}
+            onReady={() => {
+              // setPreview(true)
+              console.log("ready");
+            }}
+            pip={false}
+            onDuration={(dur)=>{
+              console.log("Buffer end -- " + dur);
+              setDuration(dur)
+            }}
+            config={{
+              file: {
+                attributes: {
+                  controlsList: 'nodownload',
+                  disablePictureInPicture: true,
+                  preload: "none",
+                },
               },
-            },
-          }}
-          onStart={()=>{
-            // setDuration(video_player_ref.current.getDuration())
-            // video_player_ref.current.seekTo(time_stamp, "seconds")
+            }}
+            onStart={()=>{
+              // setDuration(video_player_ref.current.getDuration())
+              // video_player_ref.current.seekTo(time_stamp, "seconds")
 
-            if(!started && (duration > 0) && !ready){
-              setPlaying(false)
-              setMuted(false)
-              video_player_ref?.current?.seekTo(0, "seconds")
-              setProgress(0)
-              setReady(true)
-            }else{
-              setStarted(true)
-            }
-          }}
-          onEnd={()=>{
-            console.log("end");
-          }}
-          // onPlay={()=>{console.log("playing")}}
-          // onPause={()=>console.log("pausing")}
-          onProgress={(state)=>{
-            // (state.played * 100).toFixed(5)
-            setProgress(parseFloat((state.played * 100).toFixed(5)))
-            // console.log("1", state.playedSeconds)
-            // console.log("2", state.played * 100)
-            // console.log("3", state.played)
-            // setProgress(state.playedSeconds)
-            // set_time_stamp(state.playedSeconds)
-            const time = state.playedSeconds
-            const hours = Math.trunc(time / 3600)
-            const minutes = Math.trunc(((time / 3600) - hours) * 60)
-            const seconds = Math.trunc(((((time / 3600) - hours) * 60) - minutes) * 60)
-            setTimeStamp([hours, minutes, seconds])
-            // console.log("time", hours, minutes, seconds)
-            const rem = duration - time
-            const rem_hours = Math.trunc(rem / 3600)
-            const rem_minutes = Math.trunc(((rem / 3600) - rem_hours) * 60)
-            const rem_seconds = Math.trunc(((((rem / 3600) - rem_hours) * 60) - rem_minutes) * 60)
-            setRemTimeStamp([rem_hours, rem_minutes, rem_seconds])
-          }}
-          onBuffer={()=>{
-            console.log("buffering");
-          }}
-          onBufferEnd={()=>{
-            console.log("end buffering");
-          }}
-          wrapper={Fragment}
-          onClick={()=>{
-              // set_is_playing(!is_playing)
-          }}
-          url={playlist[current_track]?.url}
-          volume={volume/10}
-          playing={playing}
-          autoPlay
-          muted={muted}
-          loop={false}
-          controls/>
+              if(!started && (duration > 0) && !ready){
+                setPlaying(false)
+                setMuted(false)
+                video_player_ref?.current?.seekTo(0, "seconds")
+                setProgress(0)
+                setReady(true)
+              }else{
+                setStarted(true)
+              }
+            }}
+            onEnd={()=>{
+              console.log("end");
+            }}
+            // onPlay={()=>{console.log("playing")}}
+            // onPause={()=>console.log("pausing")}
+            onProgress={(state)=>{
+              // (state.played * 100).toFixed(5)
+              setProgress(parseFloat((state.played * 100).toFixed(5)))
+              // console.log("1", state.playedSeconds)
+              // console.log("2", state.played * 100)
+              // console.log("3", state.played)
+              // setProgress(state.playedSeconds)
+              // set_time_stamp(state.playedSeconds)
+              const time = state.playedSeconds
+              const hours = Math.trunc(time / 3600)
+              const minutes = Math.trunc(((time / 3600) - hours) * 60)
+              const seconds = Math.trunc(((((time / 3600) - hours) * 60) - minutes) * 60)
+              setTimeStamp([hours, minutes, seconds])
+              // console.log("time", hours, minutes, seconds)
+              const rem = duration - time
+              const rem_hours = Math.trunc(rem / 3600)
+              const rem_minutes = Math.trunc(((rem / 3600) - rem_hours) * 60)
+              const rem_seconds = Math.trunc(((((rem / 3600) - rem_hours) * 60) - rem_minutes) * 60)
+              setRemTimeStamp([rem_hours, rem_minutes, rem_seconds])
+            }}
+            onBuffer={()=>{
+              console.log("buffering");
+            }}
+            onBufferEnd={()=>{
+              console.log("end buffering");
+            }}
+            // wrapper={Fragment}
+            onClick={()=>{
+                // set_is_playing(!is_playing)
+            }}
+            url={playlist[current_track]?.url}
+            volume={volume/10}
+            playing={playing}
+            autoPlay
+            muted={muted}
+            loop={false}
+            controls={false}
+          />
           </div>
           <div className="flex flex-col w-full">
             <div>
