@@ -344,7 +344,7 @@ export default function Home() {
                   <CloseFullscreenRoundedIcon/>
                 </button>
                 <div className="flex items-center justify-center local-btn-6 local-vote-control bg-neutral-700">
-                  <span>{playlist[current_track].points}</span>
+                  <span>{playlist[current_track]?.points}</span>
                   <button onClick={() => {
                     let pl:Array<Song> = playlist
                     pl[current_track].points += 1
