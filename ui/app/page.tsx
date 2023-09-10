@@ -347,14 +347,18 @@ export default function Home() {
                   <span>{playlist[current_track]?.points}</span>
                   <button onClick={() => {
                     let pl:Array<Song> = playlist
-                    pl[current_track].points += 1
+                    if(pl[current_track].points < 99){
+                      pl[current_track].points += 1
+                    }
                     setPlaylist([...pl])
                   }}>
                     <KeyboardDoubleArrowUpRoundedIcon/>
                   </button>
                   <button onClick={() => {
                     let pl:Array<Song> = playlist
-                    pl[current_track].points -= 1
+                    if(pl[current_track].points > -99){
+                      pl[current_track].points -= 1
+                    }
                     setPlaylist([...pl])
                   }}>
                     <KeyboardDoubleArrowDownRoundedIcon/>
