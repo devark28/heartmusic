@@ -107,9 +107,14 @@
     border-color: rgb(82 82 82 / 1);
 }
 
-/* .local-vote-control {
-
-} */
+.local-vote-control>span {
+    padding-left: 0.5rem;
+    padding-right: 0.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
 
 .local-media-control {
     margin-bottom: 1rem;

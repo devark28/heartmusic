@@ -94,6 +94,8 @@ export default function Home() {
   useEffect(() => {
     if((progress == 100) && (current_track < (playlist.length - 1))){
       setCurrent_track(current_track+1)
+    }else if((progress == 100) && !(current_track < (playlist.length - 1))){
+      setPlaying(false)
     }
   }, [progress])
   
@@ -148,7 +150,9 @@ export default function Home() {
               shuffle
               <ShuffleIcon/>
             </button>
-            <button className="pr-[.3rem] pl-[.8rem] local-btn-3 bg-neutral-700">
+            <button className="pr-[.3rem] pl-[.8rem] local-btn-3 bg-neutral-700" onClick={() => {
+              setCurrent_track(0)
+            }}>
               play
               <PlayArrowRoundedIcon/>
             </button>
@@ -158,7 +162,7 @@ export default function Home() {
       </div>
       <div className="flex flex-1 w-full gap-2">
         <div className="flex flex-[.7] flex-col gap-2 local-track-list bg-neutral-800">
-          {renderTracks(playlist)}
+          {renderTracks(playlist, current_track, setCurrent_track, playing, setPlaying)}
         </div>
         <div className="flex flex-[.3] flex-col local-track-player bg-neutral-800">
           <div className="flex items-center justify-between">
@@ -340,10 +344,19 @@ export default function Home() {
                   <CloseFullscreenRoundedIcon/>
                 </button>
                 <div className="flex items-center justify-center local-btn-6 local-vote-control bg-neutral-700">
-                  <button>
+                  <span>{playlist[current_track].points}</span>
+                  <button onClick={() => {
+                    let pl:Array<Song> = playlist
+                    pl[current_track].points += 1
+                    setPlaylist([...pl])
+                  }}>
                     <KeyboardDoubleArrowUpRoundedIcon/>
                   </button>
-                  <button>
+                  <button onClick={() => {
+                    let pl:Array<Song> = playlist
+                    pl[current_track].points -= 1
+                    setPlaylist([...pl])
+                  }}>
                     <KeyboardDoubleArrowDownRoundedIcon/>
                   </button>
                 </div>
@@ -356,11 +369,17 @@ export default function Home() {
   )
 }
 
-function renderTracks(data:Array<Song>){
+function renderTracks(data:Array<Song>, current_track:number, setCurrent_track:Function, playing:boolean, setPlaying:Function){
   let results = []
   for (let i = 0; i < data.length; i++) {
     // const element = data[i];
-    results.push(<Track key={i} title={data[i]?.name} artist={data[i]?.artist} points={data[i]?.points}/>)
+    results.push(<Track key={i} title={data[i]?.name} artist={data[i]?.artist} points={data[i]?.points} is_playing={(current_track == i && playing)} onPlay={() => {
+      setCurrent_track(i)
+      setPlaying(true)
+    }}
+    onPause={() => {
+      setPlaying(false)
+    }}/>)
   }
   return results
   
