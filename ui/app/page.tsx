@@ -28,12 +28,19 @@ import Track from "../components/Track";
 import { Fragment, useEffect, useRef, useState, ChangeEvent } from 'react';
 import ReactPlayer from 'react-player';
 
+type Song = {
+  name: string;
+  artist: string;
+  points: number;
+  url: string;
+};
+
 export default function Home() {
   const [is_current_track_local, setIs_current_track_local] = useState<boolean>(true)
   const [volume, setVolume] = useState<number>(1);
   const [initial_volume, setInitial_volume] = useState<number>(volume);
   const [playing, setPlaying] = useState<boolean>(false)
-  const [playlist, setPlaylist] = useState<Array<string>>([])
+  const [playlist, setPlaylist] = useState<Array<Song>>([])
   const [current_track, setCurrent_track] = useState<number>(0)
   const [muted, setMuted] =  useState<boolean>(volume == 0)
   
@@ -45,14 +52,35 @@ export default function Home() {
   const [remTimeStamp, setRemTimeStamp] =  useState<Array<number>>([0, 0, 0])
   const [was_playing, set_was_playing] =  useState<boolean>(false)
   const video_player_ref = useRef<ReactPlayer | null>(null)
+  const list = [
+    {
+      name: "Crystallize (Dubstep Violin)",
+      artist: "Lindsey Stirling",
+      points: 0,
+      url: "/audios/dubstep_violin_lindsey_stirling_crystallize_mp3_53985.mp3"
+    },
+    {
+      name: "Eva Simons ft. Konshens",
+      artist: "Policeman",
+      points: 0,
+      url: "/audios/eva_simons_ft._konshens_policeman_lyric_video_mp3_47931.mp3"
+    },
+    {
+      name: "Messin Around",
+      artist: "Pitbull, Enrique Iglesias",
+      points: 0,
+      url: "/audios/pitbull_with_enrique_iglesias_messin_around_official_video_mp3_54201.mp3"
+    },
+    {
+      name: "War Classic",
+      artist: "Bruce Emmanuel",
+      points: 0,
+      url: "/audios/war classic (3).mp3"
+    },
+  ]
 
   useEffect(() => {
-    setPlaylist([
-      "/audios/dubstep_violin_lindsey_stirling_crystallize_mp3_53985.mp3",
-      "/audios/eva_simons_ft._konshens_policeman_lyric_video_mp3_47931.mp3",
-      "/audios/pitbull_with_enrique_iglesias_messin_around_official_video_mp3_54201.mp3",
-      "/audios/war classic (3).mp3",
-    ])
+    setPlaylist(list)
   }, [])
 
   useEffect(() => {
@@ -130,7 +158,7 @@ export default function Home() {
       </div>
       <div className="flex flex-1 w-full gap-2">
         <div className="flex flex-[.7] flex-col gap-2 local-track-list bg-neutral-800">
-          {renderTracks()}
+          {renderTracks(playlist)}
         </div>
         <div className="flex flex-[.3] flex-col local-track-player bg-neutral-800">
           <div className="flex items-center justify-between">
@@ -217,7 +245,7 @@ export default function Home() {
           onClick={()=>{
               // set_is_playing(!is_playing)
           }}
-          url={playlist[current_track]}
+          url={playlist[current_track]?.url}
           volume={volume/10}
           playing={playing}
           autoPlay
@@ -264,8 +292,12 @@ export default function Home() {
             </div>
             <div className="flex items-center justify-center gap-4 local-media-control">
               <button className="local-btn-5 bg-neutral-700" onClick={() => {
-                if(current_track > 0){
-                  setCurrent_track(current_track-1)
+                if(progress > 5){
+                  video_player_ref?.current?.seekTo(0, "seconds")
+                }else{
+                  if(current_track > 0){
+                    setCurrent_track(current_track-1)
+                  }
                 }
               }}>
                 <SkipPreviousRoundedIcon/>
@@ -324,11 +356,11 @@ export default function Home() {
   )
 }
 
-function renderTracks(data = Array(6)){
+function renderTracks(data:Array<Song>){
   let results = []
   for (let i = 0; i < data.length; i++) {
     // const element = data[i];
-    results.push(<Track key={i}/>)
+    results.push(<Track key={i} title={data[i]?.name} artist={data[i]?.artist} points={data[i]?.points}/>)
   }
   return results
   
