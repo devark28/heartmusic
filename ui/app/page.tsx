@@ -4,6 +4,7 @@
  * ICONS *
  *********/
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
+import PauseRounded from '@mui/icons-material/PauseRounded'
 import SkipNextRoundedIcon from '@mui/icons-material/SkipNextRounded';
 import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
 import VolumeMuteRoundedIcon from '@mui/icons-material/VolumeMuteRounded';
@@ -24,25 +25,26 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
  **************/
 import Slider from "@mui/material/Slider";
 import Track from "../components/Track";
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState, ChangeEvent } from 'react';
 import ReactPlayer from 'react-player';
 
 export default function Home() {
-  const [is_current_track_local, setIs_current_track_local] = useState(true)
-  const [volume, setVolume] = useState(10);
-  const [initial_volume, setInitial_volume] = useState(volume);
-  const [playing, setPlaying] = useState(true)
-  const [playlist, setPlaylist] = useState(Array())
-  const [current_track, setCurrent_track] = useState(0)
-  const [muted, setMuted] =  useState(true)
+  const [is_current_track_local, setIs_current_track_local] = useState<boolean>(true)
+  const [volume, setVolume] = useState<number>(1);
+  const [initial_volume, setInitial_volume] = useState<number>(volume);
+  const [playing, setPlaying] = useState<boolean>(false)
+  const [playlist, setPlaylist] = useState<Array<string>>([])
+  const [current_track, setCurrent_track] = useState<number>(0)
+  const [muted, setMuted] =  useState<boolean>(volume == 0)
   
-  const [started, setStarted] =  useState(false)
-  const [ready, setReady] =  useState(false)
-  const [progress, setProgress] =  useState(0)
-  const [duration, setDuration] =  useState(0)
-  const [timeStamp, setTimeStamp] =  useState([0, 0, 0])
-  const [was_playing, set_was_playing] =  useState(false)
-  const video_player_ref:MutableRefObject<string> = useRef("video_player_ref")
+  const [started, setStarted] =  useState<boolean>(false)
+  const [ready, setReady] =  useState<boolean>(false)
+  const [progress, setProgress] =  useState<number>(0)
+  const [duration, setDuration] =  useState<number>(0)
+  const [timeStamp, setTimeStamp] =  useState<Array<number>>([0, 0, 0])
+  const [remTimeStamp, setRemTimeStamp] =  useState<Array<number>>([0, 0, 0])
+  const [was_playing, set_was_playing] =  useState<boolean>(false)
+  const video_player_ref = useRef<ReactPlayer | null>(null)
 
   useEffect(() => {
     setPlaylist([
@@ -52,6 +54,20 @@ export default function Home() {
       "/audios/war classic (3).mp3",
     ])
   }, [])
+
+  useEffect(() => {
+    if(volume == 0){
+      setMuted(true)
+    }else{
+      setMuted(false)
+    }
+  }, [volume])
+
+  useEffect(() => {
+    if((progress == 100) && (current_track < (playlist.length - 1))){
+      setCurrent_track(current_track+1)
+    }
+  }, [progress])
   
 
   const volumeRenderer = (low:number, high:number):string => {
@@ -130,7 +146,9 @@ export default function Home() {
             </button>
           </div>
           <div className="flex flex-1 w-full p-4">
+          {/*  w-[auto!important] */}
           <ReactPlayer
+          className="flex relative w-[30rem!important] h-[auto!important]"
           ref={video_player_ref}
           onReady={() => {
             // setPreview(true)
@@ -139,9 +157,17 @@ export default function Home() {
           pip={false}
           onDuration={(dur)=>{
             console.log("Buffer end -- " + dur);
-            // setDuration(dur)
+            setDuration(dur)
           }}
-          config={{ file: { attributes: { controlsList: 'nodownload', disablePictureInPicture: true, preload: "none" } } }}
+          config={{
+            file: {
+              attributes: {
+                controlsList: 'nodownload',
+                disablePictureInPicture: true,
+                preload: "none",
+              },
+            },
+          }}
           onStart={()=>{
             // setDuration(video_player_ref.current.getDuration())
             // video_player_ref.current.seekTo(time_stamp, "seconds")
@@ -149,11 +175,11 @@ export default function Home() {
             if(!started && (duration > 0) && !ready){
               setPlaying(false)
               setMuted(false)
-              video_player_ref.current.seekTo(0, "seconds")
+              video_player_ref?.current?.seekTo(0, "seconds")
               setProgress(0)
               setReady(true)
             }else{
-              // setStarted(true)
+              setStarted(true)
             }
           }}
           onEnd={()=>{
@@ -163,7 +189,7 @@ export default function Home() {
           // onPause={()=>console.log("pausing")}
           onProgress={(state)=>{
             // (state.played * 100).toFixed(5)
-            // setProgress((state.played * 100).toFixed(5))
+            setProgress(parseFloat((state.played * 100).toFixed(5)))
             // console.log("1", state.playedSeconds)
             // console.log("2", state.played * 100)
             // console.log("3", state.played)
@@ -175,6 +201,11 @@ export default function Home() {
             const seconds = Math.trunc(((((time / 3600) - hours) * 60) - minutes) * 60)
             setTimeStamp([hours, minutes, seconds])
             // console.log("time", hours, minutes, seconds)
+            const rem = duration - time
+            const rem_hours = Math.trunc(rem / 3600)
+            const rem_minutes = Math.trunc(((rem / 3600) - rem_hours) * 60)
+            const rem_seconds = Math.trunc(((((rem / 3600) - rem_hours) * 60) - rem_minutes) * 60)
+            setRemTimeStamp([rem_hours, rem_minutes, rem_seconds])
           }}
           onBuffer={()=>{
             console.log("buffering");
@@ -182,14 +213,14 @@ export default function Home() {
           onBufferEnd={()=>{
             console.log("end buffering");
           }}
-          // wrapper={Fragment}
+          wrapper={Fragment}
           onClick={()=>{
               // set_is_playing(!is_playing)
           }}
-          className="flex relative w-[auto!important] h-[auto!important]"
           url={playlist[current_track]}
           volume={volume/10}
           playing={playing}
+          autoPlay
           muted={muted}
           loop={false}
           controls/>
@@ -207,10 +238,11 @@ export default function Home() {
                 // console.log(was_playing)
                 setPlaying(false)
               }}
-              onChange={(e:Event) => {
-                video_player_ref.current.seekTo((e.target?.value) * duration / 100, "seconds")
-                setProgress(e.target?.value)
-                console.log(progress, e.target?.value , (e.target?.value) * duration / 100);
+              onChange={(e: Event, value: number | number[]) => {
+                const val = typeof value === "number" ? value : value[0]
+                video_player_ref?.current?.seekTo((val as number) * duration / 100, "seconds")
+                setProgress(val as number)
+                console.log(progress, val as number , (val as number) * duration / 100);
               }}
               onMouseUp={()=>{
                 if(was_playing){
@@ -221,8 +253,14 @@ export default function Home() {
               }}/>
             </div>
             <div className="flex items-center justify-between">
-              <span>--:--</span>
-              <span>--:--</span>
+              <span>
+                {timeStamp[0] > 0 ? `${timeStamp[0] < 10 ? `0${timeStamp[0]}` : timeStamp[0]}:` : ""}
+                {timeStamp[1] < 10 ? `0${timeStamp[1]}` : timeStamp[1]}:{timeStamp[2] < 10 ? `0${timeStamp[2]}` : timeStamp[2]}
+              </span>
+              <span>
+                {remTimeStamp[0] > 0 ? `${remTimeStamp[0] < 10 ? `0${remTimeStamp[0]}` : remTimeStamp[0]}:` : ""}
+                {remTimeStamp[1] < 10 ? `0${remTimeStamp[1]}` : remTimeStamp[1]}:{remTimeStamp[2] < 10 ? `0${remTimeStamp[2]}` : remTimeStamp[2]}
+              </span>
             </div>
             <div className="flex items-center justify-center gap-4 local-media-control">
               <button className="local-btn-5 bg-neutral-700" onClick={() => {
@@ -239,7 +277,11 @@ export default function Home() {
                   setPlaying(true)
                 }
               }}>
-                <PlayArrowRoundedIcon/>
+                {
+                  playing
+                  ? (<PauseRounded/>)
+                  : (<PlayArrowRoundedIcon/>)
+                }
               </button>
               <button className="local-btn-5 bg-neutral-700" onClick={() => {
                 if(current_track < (playlist.length - 1)){
@@ -259,51 +301,7 @@ export default function Home() {
                     setVolume(initial_volume)
                   }
                 }}/>
-                <span className={volumeRenderer(1, 2) + " " + (volume == 0 ? "bg-red-600" : "bg-white")} onClick={() => {
-                  const low = 1
-                  const high = 2
-                  if(volume == low){
-                    setVolume(high)
-                  }else{
-                    setVolume(low)
-                  }
-                }}></span>
-                <span className={volumeRenderer(3, 4) + " " + (volume == 0 ? "bg-red-600" : "bg-white")} onClick={() => {
-                  const low = 3
-                  const high = 4
-                  if(volume == low){
-                    setVolume(high)
-                  }else{
-                    setVolume(low)
-                  }
-                }}></span>
-                <span className={volumeRenderer(5, 6) + " " + (volume == 0 ? "bg-red-600" : "bg-white")} onClick={() => {
-                  const low = 5
-                  const high = 6
-                  if(volume == low){
-                    setVolume(high)
-                  }else{
-                    setVolume(low)
-                  }
-                }}></span>
-                <span className={volumeRenderer(7, 8) + " " + (volume == 0 ? "bg-red-600" : "bg-white")} onClick={() => {
-                  const low = 7
-                  const high = 8
-                  if(volume == low){
-                    setVolume(high)
-                  }else{
-                    setVolume(low)
-                  }
-                }}></span>
-                <span className={volumeRenderer(9, 10) + " " + (volume == 0 ? "bg-red-600" : "bg-white")} onClick={() => {
-                  const low = 9
-                  const high = 10
-                  if(volume == low){
-                    setVolume(high)
-                  }else{
-                    setVolume(low)
-                  }
-                }}></span>
+                {renderVolumeBars(volumeRenderer, volume, setVolume)}
               </button>
               <div className="flex gap-2 items-center justify-center">
                 <button className="local-btn-6 bg-neutral-700">
@@ -331,6 +329,26 @@ function renderTracks(data = Array(6)){
   for (let i = 0; i < data.length; i++) {
     // const element = data[i];
     results.push(<Track key={i}/>)
+  }
+  return results
+  
+}
+
+function renderVolumeBars(volumeRenderer:Function, volume:number, setVolume:Function){
+  let results = []
+  for (let i = 1; i < 20; i+=2) {
+    // const element = data[i];
+    const low = i
+    const high = i+1
+    results.push(
+      <span className={volumeRenderer(low, high) + " " + (volume == 0 ? "bg-red-600" : "bg-white")} onClick={() => {
+        if(volume == low){
+          setVolume(high)
+        }else{
+          setVolume(low)
+        }
+      }}></span>
+    )
   }
   return results
 }
