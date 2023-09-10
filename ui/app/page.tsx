@@ -24,12 +24,35 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
  **************/
 import Slider from "@mui/material/Slider";
 import Track from "../components/Track";
-import { useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import ReactPlayer from 'react-player';
 
 export default function Home() {
   const [is_current_track_local, setIs_current_track_local] = useState(true)
   const [volume, setVolume] = useState(10);
   const [initial_volume, setInitial_volume] = useState(volume);
+  const [playing, setPlaying] = useState(true)
+  const [playlist, setPlaylist] = useState(Array())
+  const [current_track, setCurrent_track] = useState(0)
+  const [muted, setMuted] =  useState(true)
+  
+  const [started, setStarted] =  useState(false)
+  const [ready, setReady] =  useState(false)
+  const [progress, setProgress] =  useState(0)
+  const [duration, setDuration] =  useState(0)
+  const [timeStamp, setTimeStamp] =  useState([0, 0, 0])
+  const [was_playing, set_was_playing] =  useState(false)
+  const video_player_ref:MutableRefObject<string> = useRef("video_player_ref")
+
+  useEffect(() => {
+    setPlaylist([
+      "/audios/dubstep_violin_lindsey_stirling_crystallize_mp3_53985.mp3",
+      "/audios/eva_simons_ft._konshens_policeman_lyric_video_mp3_47931.mp3",
+      "/audios/pitbull_with_enrique_iglesias_messin_around_official_video_mp3_54201.mp3",
+      "/audios/war classic (3).mp3",
+    ])
+  }, [])
+  
 
   const volumeRenderer = (low:number, high:number):string => {
     if(volume >= high){
@@ -107,24 +130,122 @@ export default function Home() {
             </button>
           </div>
           <div className="flex flex-1 w-full p-4">
-            <audio hidden></audio>
+          <ReactPlayer
+          ref={video_player_ref}
+          onReady={() => {
+            // setPreview(true)
+            console.log("ready");
+          }}
+          pip={false}
+          onDuration={(dur)=>{
+            console.log("Buffer end -- " + dur);
+            // setDuration(dur)
+          }}
+          config={{ file: { attributes: { controlsList: 'nodownload', disablePictureInPicture: true, preload: "none" } } }}
+          onStart={()=>{
+            // setDuration(video_player_ref.current.getDuration())
+            // video_player_ref.current.seekTo(time_stamp, "seconds")
+
+            if(!started && (duration > 0) && !ready){
+              setPlaying(false)
+              setMuted(false)
+              video_player_ref.current.seekTo(0, "seconds")
+              setProgress(0)
+              setReady(true)
+            }else{
+              // setStarted(true)
+            }
+          }}
+          onEnd={()=>{
+            console.log("end");
+          }}
+          // onPlay={()=>{console.log("playing")}}
+          // onPause={()=>console.log("pausing")}
+          onProgress={(state)=>{
+            // (state.played * 100).toFixed(5)
+            // setProgress((state.played * 100).toFixed(5))
+            // console.log("1", state.playedSeconds)
+            // console.log("2", state.played * 100)
+            // console.log("3", state.played)
+            // setProgress(state.playedSeconds)
+            // set_time_stamp(state.playedSeconds)
+            const time = state.playedSeconds
+            const hours = Math.trunc(time / 3600)
+            const minutes = Math.trunc(((time / 3600) - hours) * 60)
+            const seconds = Math.trunc(((((time / 3600) - hours) * 60) - minutes) * 60)
+            setTimeStamp([hours, minutes, seconds])
+            // console.log("time", hours, minutes, seconds)
+          }}
+          onBuffer={()=>{
+            console.log("buffering");
+          }}
+          onBufferEnd={()=>{
+            console.log("end buffering");
+          }}
+          // wrapper={Fragment}
+          onClick={()=>{
+              // set_is_playing(!is_playing)
+          }}
+          className="flex relative w-[auto!important] h-[auto!important]"
+          url={playlist[current_track]}
+          volume={volume/10}
+          playing={playing}
+          muted={muted}
+          loop={false}
+          controls/>
           </div>
           <div className="flex flex-col w-full">
             <div>
-              <Slider size="medium"/>
+              <Slider size="medium" step={0.000001} min={0} max={100}
+              value={progress}
+              onMouseDown={()=>{
+                if(playing){
+                    set_was_playing(true)
+                }else{
+                    set_was_playing(false)
+                }
+                // console.log(was_playing)
+                setPlaying(false)
+              }}
+              onChange={(e:Event) => {
+                video_player_ref.current.seekTo((e.target?.value) * duration / 100, "seconds")
+                setProgress(e.target?.value)
+                console.log(progress, e.target?.value , (e.target?.value) * duration / 100);
+              }}
+              onMouseUp={()=>{
+                if(was_playing){
+                    setPlaying(true)
+                }else{
+                    setPlaying(false)
+                }
+              }}/>
             </div>
             <div className="flex items-center justify-between">
               <span>--:--</span>
               <span>--:--</span>
             </div>
             <div className="flex items-center justify-center gap-4 local-media-control">
-              <button className="local-btn-5 bg-neutral-700">
+              <button className="local-btn-5 bg-neutral-700" onClick={() => {
+                if(current_track > 0){
+                  setCurrent_track(current_track-1)
+                }
+              }}>
                 <SkipPreviousRoundedIcon/>
               </button>
-              <button className="local-btn-4 bg-neutral-600">
+              <button className="local-btn-4 bg-neutral-600" onClick={() => {
+                if(playing){
+                  setPlaying(false)
+                }else{
+                  setPlaying(true)
+                }
+              }}>
                 <PlayArrowRoundedIcon/>
               </button>
-              <button className="local-btn-5 bg-neutral-700">
+              <button className="local-btn-5 bg-neutral-700" onClick={() => {
+                if(current_track < (playlist.length - 1)){
+                  setCurrent_track(current_track+1)
+                }
+              }}>
                 <SkipNextRoundedIcon/>
               </button>
             </div>
