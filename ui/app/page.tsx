@@ -20,6 +20,11 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import LinkIcon from "../components/LinkIcon"
 import DesktopWindowsRoundedIcon from '@mui/icons-material/DesktopWindowsRounded';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+/*************
+ * Json Data *
+ *************/
+import ext_playlist from "../../utils/playlist.json"
+import ext_tracks from "../../utils/tracks.json"
 /**************
  * Components *
  **************/
@@ -250,7 +255,7 @@ export default function Home() {
                 // set_is_playing(!is_playing)
             }}
             url={playlist[current_track]?.url}
-            volume={volume/10}
+            volume={volume/20}
             playing={playing}
             autoPlay
             muted={muted}
@@ -392,7 +397,7 @@ function renderTracks(data:Array<Song>, current_track:number, setCurrent_track:F
 
 function renderVolumeBars(volumeRenderer:Function, volume:number, setVolume:Function){
   let results = []
-  for (let i = 1; i < 20; i+=2) {
+  for (let i = 1; i < 20; i += 2) {
     // const element = data[i];
     const low = i
     const high = i+1
