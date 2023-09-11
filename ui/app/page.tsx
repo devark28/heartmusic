@@ -152,6 +152,7 @@ export default function Home() {
             </button>
             <button className="pr-[.3rem] pl-[.8rem] local-btn-3 bg-neutral-700" onClick={() => {
               setCurrent_track(0)
+              setPlaying(true)
             }}>
               play
               <PlayArrowRoundedIcon/>
